@@ -1,11 +1,15 @@
-import { navItems } from '../data/siteContent';
+import { useContent } from '../contexts/ContentContext';
+import AuthButton from './AuthButton';
 
 function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
+  const { content } = useContent();
+  const navItems = content.site?.navItems || [];
+
   return (
     <header className="site-header">
       <div className="site-header__inner">
         <button className="brand-mark" type="button" onClick={() => onNavigate('home')}>
-          Kaushalya
+          {content.site?.title || 'Kaushalya'}
         </button>
 
         <nav className="desktop-nav" aria-label="Primary">
@@ -21,6 +25,10 @@ function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
           ))}
         </nav>
 
+        <div className="header-actions">
+          <AuthButton />
+        </div>
+
         <button
           className="menu-toggle"
           type="button"
@@ -35,6 +43,7 @@ function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
       </div>
 
       <div className={`mobile-nav ${mobileMenuOpen ? 'is-open' : ''}`}>
+        <AuthButton />
         {navItems.map((item) => (
           <button
             key={item.id}

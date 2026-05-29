@@ -1,24 +1,24 @@
-import { featuredProjects, heroStats, spotlight } from '../data/siteContent';
+import { useContent } from '../contexts/ContentContext';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 
 function HomePage({ onNavigate }) {
+  const { content } = useContent();
+  const { hero, spotlight, featuredProjects, heroStats } = content;
+
   return (
     <div className="page-stack">
       <section className="hero-grid">
         <Reveal className="hero-copy">
-          <span className="eyebrow">Portfolio / Engineering / Design</span>
-          <h1>Hey, I’m Kaushalya Mullegama.</h1>
-          <p>
-            I’m an electronics and software enthusiast focused on innovation, from Arduino systems to seamless
-            digital experiences.
-          </p>
+          <span className="eyebrow">{hero?.eyebrow || 'Portfolio / Engineering / Design'}</span>
+          <h1>{hero?.title || "Hey, I’m Kaushalya Mullegama."}</h1>
+          <p>{hero?.description}</p>
           <div className="hero-actions">
             <button type="button" className="primary-button" onClick={() => onNavigate('blog')}>
-              Explore Blog
+              {hero?.ctaPrimary || 'Explore Blog'}
             </button>
             <button type="button" className="secondary-button" onClick={() => onNavigate('about')}>
-              View Background
+              {hero?.ctaSecondary || 'View Background'}
             </button>
           </div>
           <div className="stat-row">
@@ -47,14 +47,14 @@ function HomePage({ onNavigate }) {
         />
         <article className="spotlight-card">
           <div className="spotlight-card__copy">
-            <span className="badge badge--indigo">{spotlight.tag}</span>
-            <h2>{spotlight.title}</h2>
-            <p>{spotlight.description}</p>
+            <span className="badge badge--indigo">{spotlight?.tag}</span>
+            <h2>{spotlight?.title}</h2>
+            <p>{spotlight?.description}</p>
             <button type="button" className="text-button" onClick={() => onNavigate('blog')}>
               Read more
             </button>
           </div>
-          <img src={spotlight.image} alt="Robotics concept art" />
+          <img src={spotlight?.image} alt="Robotics concept art" />
         </article>
       </Reveal>
 

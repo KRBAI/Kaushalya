@@ -2,6 +2,8 @@ import { useEffect, useMemo, useState } from 'react';
 import BackgroundCanvas from './components/BackgroundCanvas';
 import Footer from './components/Footer';
 import Header from './components/Header';
+import { AuthProvider } from './contexts/AuthContext';
+import { ContentProvider } from './contexts/ContentContext';
 import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
 import HomePage from './pages/HomePage';
@@ -31,19 +33,23 @@ function App() {
   };
 
   return (
-    <div className="app-shell">
-      <BackgroundCanvas />
-      <Header
-        activeView={activeView}
-        mobileMenuOpen={mobileMenuOpen}
-        onNavigate={handleNavigate}
-        onToggleMenu={() => setMobileMenuOpen((isOpen) => !isOpen)}
-      />
-      <main className="page-shell">
-        <CurrentPage onNavigate={handleNavigate} />
-      </main>
-      <Footer onNavigate={handleNavigate} />
-    </div>
+    <AuthProvider>
+      <ContentProvider>
+        <div className="app-shell">
+          <BackgroundCanvas />
+          <Header
+            activeView={activeView}
+            mobileMenuOpen={mobileMenuOpen}
+            onNavigate={handleNavigate}
+            onToggleMenu={() => setMobileMenuOpen((isOpen) => !isOpen)}
+          />
+          <main className="page-shell">
+            <CurrentPage onNavigate={handleNavigate} />
+          </main>
+          <Footer onNavigate={handleNavigate} />
+        </div>
+      </ContentProvider>
+    </AuthProvider>
   );
 }
 

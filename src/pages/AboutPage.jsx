@@ -1,8 +1,11 @@
-import { certifications, education, skillCards } from '../data/siteContent';
+import { useContent } from '../contexts/ContentContext';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 
 function AboutPage() {
+  const { content } = useContent();
+  const { education, skills, certifications } = content;
+
   return (
     <div className="page-stack">
       <section className="about-hero">
@@ -55,7 +58,7 @@ function AboutPage() {
         </Reveal>
 
         <div className="skills-grid">
-          {skillCards.map((card, index) => (
+          {skills.map((card, index) => (
             <Reveal key={card.title} delay={index * 90}>
               <article className={`skill-card skill-card--${card.size}`}>
                 <div className="skill-card__header">

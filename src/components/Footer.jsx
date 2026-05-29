@@ -1,12 +1,17 @@
-import { contactDetails, navItems, socialLinks } from '../data/siteContent';
+import { useContent } from '../contexts/ContentContext';
 
 function Footer({ onNavigate }) {
+  const { content } = useContent();
+  const navItems = content.site?.navItems || [];
+  const socialLinks = content.site?.socialLinks || [];
+  const contactDetails = content.site?.contactDetails || {};
+
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">
         <div className="footer-card">
-          <h3>Kaushalya</h3>
-          <p>Thank you for visiting my portfolio. Let’s connect, collaborate, and build something sharper.</p>
+          <h3>{content.site?.title || 'Kaushalya'}</h3>
+          <p>{content.hero?.description || 'Thank you for visiting my portfolio. Let’s connect, collaborate, and build something sharper.'}</p>
         </div>
 
         <div className="footer-card">
