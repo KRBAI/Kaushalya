@@ -246,6 +246,23 @@ function EditPage() {
     }));
   };
 
+  const updateHeroImage = (image) => {
+    setDraft((current) => ({
+      ...current,
+      hero: {
+        ...(current.hero || {}),
+        image,
+      },
+    }));
+  };
+
+  const updateAboutImage = (image) => {
+    setDraft((current) => ({
+      ...current,
+      aboutImage: image,
+    }));
+  };
+
   const updateArrayItem = (section, index, field, value) => {
     setDraft((current) => {
       const items = [...(current[section] || [])];
@@ -445,6 +462,13 @@ function EditPage() {
                 </label>
               </div>
 
+              <SingleImageDropzone
+                label="Home hero image"
+                hint="Drag in a new hero image for the home section."
+                image={draft.hero?.image || ''}
+                onChange={updateHeroImage}
+              />
+
               <div className="content-editor__grid content-editor__grid--three">
                 {(draft.heroStats || []).map((stat, index) => (
                   <label key={`${stat.label}-${index}`}>
@@ -476,6 +500,13 @@ function EditPage() {
 
             <section className="content-editor__group">
               <h3>About Page</h3>
+              <SingleImageDropzone
+                label="About section image"
+                hint="Drag in the image shown beside the About introduction."
+                image={draft.aboutImage || ''}
+                onChange={updateAboutImage}
+              />
+
               {(draft.education || []).map((item, index) => (
                 <div key={`${item.title}-${index}`} className="content-editor__card">
                   <label>

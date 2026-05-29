@@ -4,7 +4,7 @@ import SectionHeading from '../components/SectionHeading';
 
 function AboutPage() {
   const { content } = useContent();
-  const { education, skills, certifications } = content;
+  const { education, skills, certifications, aboutImage } = content;
 
   return (
     <div className="page-stack">
@@ -19,10 +19,7 @@ function AboutPage() {
         </Reveal>
 
         <Reveal delay={120}>
-          <img
-            src="https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg"
-            alt="Inner view of a futuristic vehicle"
-          />
+          <img src={aboutImage || 'https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg'} alt="Inner view of a futuristic vehicle" />
         </Reveal>
       </section>
 

@@ -34,10 +34,7 @@ function HomePage({ onNavigate }) {
         </Reveal>
 
         <Reveal className="hero-visual" delay={120}>
-          <img
-            src="https://static.wixstatic.com/media/3d6765_c7d6668f3ac7464f84a259bad9bd496b~mv2.png/v1/fill/w_480,h_420,al_c,q_90/Untitled%20design%20(2).png"
-            alt="Kaushalya Graphic Banner"
-          />
+          <img src={hero?.image || 'https://static.wixstatic.com/media/3d6765_c7d6668f3ac7464f84a259bad9bd496b~mv2.png/v1/fill/w_480,h_420,al_c,q_90/Untitled%20design%20(2).png'} alt="Kaushalya Graphic Banner" />
         </Reveal>
       </section>
 

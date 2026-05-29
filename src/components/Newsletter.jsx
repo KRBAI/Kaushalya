@@ -1,10 +1,13 @@
 import { useState } from 'react';
+import { doc, serverTimestamp, setDoc } from 'firebase/firestore';
+import { firestore } from '../lib/firebase';
 
 function Newsletter() {
   const [email, setEmail] = useState('');
   const [message, setMessage] = useState('');
+  const [submitting, setSubmitting] = useState(false);
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
 
     if (!email.trim()) {
@@ -12,8 +15,24 @@ function Newsletter() {
       return;
     }
 
-    setMessage(`Subscribed successfully for ${email.trim()}.`);
-    setEmail('');
+    setSubmitting(true);
+    setMessage('');
+
+    try {
+      const normalizedEmail = email.trim().toLowerCase();
+      await setDoc(doc(firestore, 'newsletterSubscribers', normalizedEmail), {
+        email: normalizedEmail,
+        subscribedAt: serverTimestamp(),
+        source: 'newsletter-card',
+      });
+
+      setMessage(`Subscribed successfully for ${normalizedEmail}.`);
+      setEmail('');
+    } catch (error) {
+      setMessage(error?.message || 'Unable to subscribe right now. Please try again later.');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -31,8 +50,11 @@ function Newsletter() {
           onChange={(event) => setEmail(event.target.value)}
           placeholder="Email Address *"
           aria-label="Email address"
+          disabled={submitting}
         />
-        <button type="submit">Submit</button>
+        <button type="submit" disabled={submitting}>
+          {submitting ? 'Submitting...' : 'Submit'}
+        </button>
       </form>
 
       {message ? <p className="newsletter-message">{message}</p> : null}

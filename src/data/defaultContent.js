@@ -24,6 +24,8 @@ export const defaultContent = {
       'I’m an electronics and software enthusiast focused on innovation, from Arduino systems to seamless digital experiences.',
     ctaPrimary: 'Explore Blog',
     ctaSecondary: 'View Background',
+    image:
+      'https://static.wixstatic.com/media/3d6765_c7d6668f3ac7464f84a259bad9bd496b~mv2.png/v1/fill/w_480,h_420,al_c,q_90/Untitled%20design%20(2).png',
   },
   heroStats: [
     { value: '3+', label: 'Core disciplines' },
@@ -163,4 +165,6 @@ export const defaultContent = {
         'https://static.wixstatic.com/media/3d6765_c8422b4641384aba8b959a0750cdccbf~mv2.png/v1/fill/w_480,h_360,al_c,q_90/Screen%20Shot%202025-02-04%20at%2010_43_22.png',
     },
   ],
+  aboutImage:
+    'https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg',
 };
