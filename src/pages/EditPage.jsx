@@ -1,7 +1,6 @@
 import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useContent } from '../contexts/ContentContext';
-import Reveal from '../components/Reveal';
 import { readFilesAsDataUrls } from '../lib/imageFiles';
 
 const emptyProjectDraft = {
@@ -194,11 +193,27 @@ function EditPage() {
   }, [content]);
 
   if (loading) {
-    return null;
+    return (
+      <div className="page-stack">
+        <section className="content-editor content-editor--page">
+          <span className="eyebrow">Edit</span>
+          <h2>Loading editor…</h2>
+          <p className="content-editor__status">Checking your sign-in state and content data.</p>
+        </section>
+      </div>
+    );
   }
 
   if (!isAdmin) {
-    return null;
+    return (
+      <div className="page-stack">
+        <section className="content-editor content-editor--page">
+          <span className="eyebrow">Edit</span>
+          <h2>Admin access required</h2>
+          <p className="content-editor__status">Sign in with the admin account to edit this site.</p>
+        </section>
+      </div>
+    );
   }
 
   const updateSiteField = (field, value) => {
@@ -382,51 +397,50 @@ function EditPage() {
 
   return (
     <div className="page-stack">
-      <Reveal>
-        <section className="content-editor content-editor--page">
-          <div className="content-editor__header">
-            <div>
-              <span className="eyebrow">Edit</span>
-              <h2>Edit Website Content</h2>
-            </div>
-            <button type="button" onClick={() => setDraft(content)} className="secondary-button">
-              Reset draft
-            </button>
+      <section className="content-editor content-editor--page">
+        <div className="content-editor__header">
+          <div>
+            <span className="eyebrow">Edit</span>
+            <h2>Edit Website Content</h2>
           </div>
+          <button type="button" onClick={() => setDraft(content)} className="secondary-button">
+            Reset draft
+          </button>
+        </div>
 
-          {status ? <p className="content-editor__status">{status}</p> : null}
+        {status ? <p className="content-editor__status">{status}</p> : null}
 
-          <form onSubmit={handleSubmit} className="content-editor__form">
-            <section className="content-editor__group">
-              <h3>Brand & Navigation</h3>
-              <div className="content-editor__grid">
-                <label>
-                  Site title
-                  <input value={draft.site?.title || ''} onChange={(event) => updateSiteField('title', event.target.value)} />
-                </label>
-                <label>
-                  Site tagline
-                  <input value={draft.site?.tagline || ''} onChange={(event) => updateSiteField('tagline', event.target.value)} />
-                </label>
-                <label>
-                  Contact location
-                  <input value={draft.site?.contactDetails?.location || ''} onChange={(event) => updateSiteContact('location', event.target.value)} />
-                </label>
-                <label>
-                  Contact email
-                  <input value={draft.site?.contactDetails?.email || ''} onChange={(event) => updateSiteContact('email', event.target.value)} />
-                </label>
-              </div>
+        <form onSubmit={handleSubmit} className="content-editor__form">
+          <section className="content-editor__group">
+            <h3>Brand & Navigation</h3>
+            <div className="content-editor__grid">
+              <label>
+                Site title
+                <input value={draft.site?.title || ''} onChange={(event) => updateSiteField('title', event.target.value)} />
+              </label>
+              <label>
+                Site tagline
+                <input value={draft.site?.tagline || ''} onChange={(event) => updateSiteField('tagline', event.target.value)} />
+              </label>
+              <label>
+                Contact location
+                <input value={draft.site?.contactDetails?.location || ''} onChange={(event) => updateSiteContact('location', event.target.value)} />
+              </label>
+              <label>
+                Contact email
+                <input value={draft.site?.contactDetails?.email || ''} onChange={(event) => updateSiteContact('email', event.target.value)} />
+              </label>
+            </div>
 
-              <div className="content-editor__grid content-editor__grid--three">
-                {(draft.site?.navItems || []).map((item, index) => (
-                  <label key={item.id || index}>
-                    Nav item {index + 1}
-                    <input value={item.label || ''} onChange={(event) => updateNavItem(index, event.target.value)} />
-                  </label>
-                ))}
-              </div>
-            </section>
+            <div className="content-editor__grid content-editor__grid--three">
+              {(draft.site?.navItems || []).map((item, index) => (
+                <label key={item.id || index}>
+                  Nav item {index + 1}
+                  <input value={item.label || ''} onChange={(event) => updateNavItem(index, event.target.value)} />
+                </label>
+              ))}
+            </div>
+          </section>
 
             <section className="content-editor__group">
               <h3>Homepage</h3>
@@ -736,12 +750,11 @@ function EditPage() {
               </div>
             </section>
 
-            <button type="submit" className="primary-button" disabled={saving}>
-              {saving ? 'Saving...' : 'Save changes'}
-            </button>
-          </form>
-        </section>
-      </Reveal>
+          <button type="submit" className="primary-button" disabled={saving}>
+            {saving ? 'Saving...' : 'Save changes'}
+          </button>
+        </form>
+      </section>
     </div>
   );
 }

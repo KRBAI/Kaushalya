@@ -40,20 +40,54 @@ function useLikes(postId) {
   return { likeCount: likedBy.length, isLiked, toggleLike };
 }
 
-function sharePost(post) {
+function slugify(text = '') {
+  return String(text)
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function sharePostCopy(post) {
+  const id = post.id || slugify(post.title);
+  const sharePageUrl = `${window.location.origin}/shares/${id}.html`;
+  return navigator.clipboard.writeText(sharePageUrl).then(() => sharePageUrl);
+}
+
+function linkedInShareUrl(post) {
   const shareUrl = `${window.location.origin}${window.location.pathname}#${post.id}`;
-  const shareData = { title: post.title, text: post.description, url: shareUrl };
+  return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
+}
 
-  if (navigator.share) {
-    navigator.share(shareData).catch(() => null);
-    return;
-  }
-
-  navigator.clipboard.writeText(`${post.title}\n${post.description}\n${shareUrl}`).catch(() => null);
+function whatsappShareUrl(post) {
+  const shareUrl = `${window.location.origin}${window.location.pathname}#${post.id}`;
+  const text = `${post.title} - ${post.description} ${shareUrl}`;
+  return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
 }
 
 function PostCard({ post }) {
   const { likeCount, isLiked, toggleLike } = useLikes(post.id);
+  const [copied, setCopied] = useState(false);
+
+  const handleCopy = async () => {
+    try {
+      await sharePostCopy(post);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch (err) {
+      // fallback to basic copy
+      try {
+        const id = post.id || slugify(post.title);
+        const sharePageUrl = `${window.location.origin}/shares/${id}.html`;
+        await navigator.clipboard.writeText(sharePageUrl);
+        setCopied(true);
+        setTimeout(() => setCopied(false), 2000);
+      } catch (e) {
+        // ignore
+      }
+    }
+  };
 
   return (
     <article className={`article-card article-card--${post.tone}`} id={`post-${post.id}`}>
@@ -66,9 +100,11 @@ function PostCard({ post }) {
           <button type="button" className={`chip-button ${isLiked ? 'is-liked' : ''}`} onClick={toggleLike}>
             ♥ {likeCount}
           </button>
-          <button type="button" className="chip-button" onClick={() => sharePost(post)}>
-            Share
-          </button>
+          <div className="share-buttons">
+            <button type="button" className={`chip-button ${copied ? 'is-copied' : ''}`} onClick={handleCopy}>
+              {copied ? 'Copied' : 'Copy link'}
+            </button>
+          </div>
         </div>
       </div>
       <CommentPanel postId={post.id} />

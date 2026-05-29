@@ -81,18 +81,40 @@ function HomePage({ onNavigate }) {
         </Reveal>
 
         <div className="project-grid">
-          {featuredProjects.map((project, index) => (
-            <Reveal key={project.title} delay={index * 100}>
-              <article className="project-card">
-                <ImageCarousel images={project.images || project.image} alt={project.title} imageClassName="project-card__image" />
-                <div className="project-card__body">
-                  <span className="eyebrow">{project.label}</span>
-                  <h3>{project.title}</h3>
-                  <p>{project.description}</p>
-                </div>
-              </article>
-            </Reveal>
-          ))}
+          {featuredProjects.map((project, index) => {
+            const id = project.id || project.title.replace(/\s+/g, '-').toLowerCase();
+            const shareUrl = `${window.location.origin}${window.location.pathname}#${id}`;
+
+            return (
+              <Reveal key={project.title} delay={index * 100}>
+                <article className="project-card">
+                  <ImageCarousel images={project.images || project.image} alt={project.title} imageClassName="project-card__image" />
+                  <div className="project-card__body">
+                    <span className="eyebrow">{project.label}</span>
+                    <h3>{project.title}</h3>
+                    <p>{project.description}</p>
+                    <div className="share-buttons">
+                      <button
+                        type="button"
+                        className="chip-button"
+                        onClick={async () => {
+                          try {
+                            await navigator.clipboard.writeText(shareUrl.replace(window.location.origin + '/', window.location.origin + '/shares/'));
+                            /* eslint-disable no-alert */
+                            window.alert('Share link copied to clipboard');
+                          } catch (e) {
+                            window.alert('Unable to copy link');
+                          }
+                        }}
+                      >
+                        Copy link
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </Reveal>
+            );
+          })}
         </div>
       </section>
     </div>
