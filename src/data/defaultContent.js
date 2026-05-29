@@ -9,6 +9,7 @@ export const defaultContent = {
     ],
     socialLinks: [
       { label: 'LinkedIn', href: 'https://www.linkedin.com/in/kaushalya-mullegama-962b4b270/', icon: 'fa-brands fa-linkedin' },
+      { label: 'GitHub', href: 'https://github.com/KRBAI', icon: 'fa-brands fa-github' },
       { label: 'Instagram', href: 'https://www.instagram.com/kaushalya_mullegama_2903/', icon: 'fa-brands fa-instagram' },
       { label: 'YouTube', href: 'https://www.youtube.com/@kaushalyamullegama3932', icon: 'fa-brands fa-youtube' },
     ],

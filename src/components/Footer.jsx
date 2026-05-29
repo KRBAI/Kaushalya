@@ -1,9 +1,22 @@
 import { useContent } from '../contexts/ContentContext';
+import { defaultContent } from '../data/defaultContent';
+
+function mergeSocialLinks(primaryLinks = [], fallbackLinks = []) {
+  const merged = [...primaryLinks, ...fallbackLinks];
+  const seen = new Set();
+
+  return merged.filter((link) => {
+    const key = link.href || link.label;
+    if (seen.has(key)) return false;
+    seen.add(key);
+    return true;
+  });
+}
 
 function Footer({ onNavigate }) {
   const { content } = useContent();
   const navItems = content.site?.navItems || [];
-  const socialLinks = content.site?.socialLinks || [];
+  const socialLinks = mergeSocialLinks(content.site?.socialLinks, defaultContent.site.socialLinks);
   const contactDetails = content.site?.contactDetails || {};
 
   return (
