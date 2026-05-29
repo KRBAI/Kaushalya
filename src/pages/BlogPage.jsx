@@ -49,9 +49,13 @@ function slugify(text = '') {
     .replace(/^-|-$/g, '');
 }
 
-function sharePostCopy(post) {
+function getSharePageUrl(post) {
   const id = post.id || slugify(post.title);
-  const sharePageUrl = `${window.location.origin}/shares/${id}.html`;
+  return `${window.location.origin}/shares/${id}.html`;
+}
+
+function sharePostCopy(post) {
+  const sharePageUrl = getSharePageUrl(post);
   return navigator.clipboard.writeText(sharePageUrl).then(() => sharePageUrl);
 }
 
@@ -76,10 +80,8 @@ function PostCard({ post }) {
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
-      // fallback to basic copy
       try {
-        const id = post.id || slugify(post.title);
-        const sharePageUrl = `${window.location.origin}/shares/${id}.html`;
+        const sharePageUrl = getSharePageUrl(post);
         await navigator.clipboard.writeText(sharePageUrl);
         setCopied(true);
         setTimeout(() => setCopied(false), 2000);

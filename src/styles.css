@@ -1242,15 +1242,39 @@ a {
   .edit-create-grid {
     grid-template-columns: 1fr;
   }
+
+  .site-header__inner {
+    width: min(1180px, calc(100% - 1.5rem));
+  }
+
+  .page-shell,
+  .site-footer__grid,
+  .site-footer__bar {
+    width: min(1180px, calc(100% - 1.5rem));
+  }
 }
 
 @media (max-width: 780px) {
+  .site-header__inner {
+    min-height: auto;
+    flex-wrap: wrap;
+    align-items: center;
+    padding: 0.75rem 0;
+  }
+
+  .brand-mark {
+    font-size: 1.1rem;
+    flex: 1 1 auto;
+  }
+
   .desktop-nav {
     display: none;
   }
 
   .header-actions {
-    display: none;
+    display: flex;
+    order: 2;
+    margin-left: auto;
   }
 
   .auth-panel {
@@ -1260,6 +1284,12 @@ a {
 
   .menu-toggle {
     display: inline-flex;
+    order: 3;
+    margin-left: 0.5rem;
+  }
+
+  .mobile-nav {
+    width: min(1180px, calc(100% - 1.5rem));
   }
 
   .project-grid,
@@ -1306,6 +1336,178 @@ a {
   .image-carousel__nav {
     width: 2rem;
     height: 2rem;
+  }
+
+  .hero-grid,
+  .about-hero,
+  .spotlight-card,
+  .newsletter-card,
+  .project-card,
+  .article-card,
+  .timeline-card,
+  .cert-card,
+  .skill-card,
+  .content-editor,
+  .comment-panel {
+    border-radius: 22px;
+  }
+
+  .hero-grid,
+  .about-hero,
+  .spotlight-card,
+  .newsletter-card {
+    gap: 1rem;
+  }
+
+  .hero-grid,
+  .about-hero,
+  .spotlight-card {
+    padding: 1rem;
+  }
+
+  .project-card img,
+  .article-card img,
+  .project-card .image-carousel__frame,
+  .article-card .image-carousel__frame {
+    height: 210px;
+  }
+
+  .spotlight-card .image-carousel__frame {
+    min-height: 220px;
+  }
+
+  .blog-toolbar,
+  .content-editor__header,
+  .comment-panel__header,
+  .edit-create-card__head,
+  .media-dropzone__label-row {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .post-actions,
+  .share-buttons,
+  .hero-actions,
+  .newsletter-form,
+  .social-links,
+  .chip-row {
+    width: 100%;
+  }
+
+  .post-actions,
+  .share-buttons,
+  .hero-actions,
+  .newsletter-form {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .post-actions .chip-button,
+  .share-buttons .chip-button,
+  .hero-actions .primary-button,
+  .hero-actions .secondary-button,
+  .newsletter-form button,
+  .newsletter-form input {
+    width: 100%;
+  }
+
+  .social-links {
+    justify-content: center;
+    flex-wrap: wrap;
+  }
+
+  .content-editor__grid,
+  .content-editor__grid--two,
+  .content-editor__grid--three,
+  .edit-create-grid,
+  .project-grid,
+  .timeline-grid,
+  .cert-grid,
+  .skills-grid,
+  .site-footer__grid,
+  .stat-row {
+    grid-template-columns: 1fr;
+  }
+
+  .skill-card--large,
+  .skill-card--wide {
+    grid-column: auto;
+  }
+
+  .content-editor__form input,
+  .content-editor__form textarea,
+  .content-editor__form select,
+  .blog-toolbar input,
+  .newsletter-form input,
+  .comment-form textarea,
+  .auth-form input {
+    padding: 0.85rem 0.9rem;
+  }
+
+  .auth-panel {
+    width: min(380px, calc(100vw - 1rem));
+  }
+
+  .page-shell,
+  .site-footer__grid,
+  .site-footer__bar,
+  .site-header__inner,
+  .mobile-nav {
+    width: min(1180px, calc(100% - 1rem));
+  }
+}
+
+@media (max-width: 560px) {
+  .hero-copy h1,
+  .about-hero h1 {
+    font-size: clamp(2.1rem, 12vw, 3.2rem);
+  }
+
+  .section-heading h2,
+  .newsletter-card h2,
+  .spotlight-card h2 {
+    font-size: clamp(1.5rem, 7vw, 2.1rem);
+  }
+
+  .hero-grid,
+  .about-hero,
+  .spotlight-card,
+  .newsletter-card,
+  .content-editor,
+  .comment-panel {
+    padding: 0.9rem;
+  }
+
+  .site-header__inner,
+  .page-shell,
+  .site-footer__grid,
+  .site-footer__bar,
+  .mobile-nav {
+    width: min(1180px, calc(100% - 0.75rem));
+  }
+
+  .brand-mark {
+    font-size: 1rem;
+  }
+
+  .auth-chip,
+  .auth-button,
+  .chip-button,
+  .nav-link,
+  .mobile-nav__link {
+    padding-inline: 0.8rem;
+  }
+
+  .project-card img,
+  .article-card img,
+  .project-card .image-carousel__frame,
+  .article-card .image-carousel__frame {
+    height: 190px;
+  }
+
+  .spotlight-card .image-carousel__frame {
+    min-height: 190px;
   }
 }
 

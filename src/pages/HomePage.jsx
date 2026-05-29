@@ -3,6 +3,20 @@ import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import ImageCarousel from '../components/ImageCarousel';
 
+function slugify(text = '') {
+  return String(text)
+    .toLowerCase()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9\-]/g, '')
+    .replace(/-+/g, '-')
+    .replace(/^-|-$/g, '');
+}
+
+function getSharePageUrl(project) {
+  const id = project.id || slugify(project.title);
+  return `${window.location.origin}/shares/${id}.html`;
+}
+
 function HomePage({ onNavigate }) {
   const { content } = useContent();
   const { hero, spotlight, featuredProjects, heroStats, articles = [] } = content;
@@ -82,8 +96,7 @@ function HomePage({ onNavigate }) {
 
         <div className="project-grid">
           {featuredProjects.map((project, index) => {
-            const id = project.id || project.title.replace(/\s+/g, '-').toLowerCase();
-            const shareUrl = `${window.location.origin}${window.location.pathname}#${id}`;
+            const shareUrl = getSharePageUrl(project);
 
             return (
               <Reveal key={project.title} delay={index * 100}>
@@ -99,11 +112,9 @@ function HomePage({ onNavigate }) {
                         className="chip-button"
                         onClick={async () => {
                           try {
-                            await navigator.clipboard.writeText(shareUrl.replace(window.location.origin + '/', window.location.origin + '/shares/'));
-                            /* eslint-disable no-alert */
-                            window.alert('Share link copied to clipboard');
+                            await navigator.clipboard.writeText(shareUrl);
                           } catch (e) {
-                            window.alert('Unable to copy link');
+                            await navigator.clipboard.writeText(shareUrl);
                           }
                         }}
                       >
