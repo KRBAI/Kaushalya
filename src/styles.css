@@ -1278,8 +1278,16 @@ a {
   }
 
   .auth-panel {
+    position: fixed;
+    top: 50%;
+    left: 50%;
     right: auto;
-    left: 0;
+    transform: translate(-50%, -50%);
+    width: min(420px, calc(100vw - 1rem));
+    max-height: min(86vh, 720px);
+    overflow: auto;
+    z-index: 60;
+    box-shadow: 0 30px 90px rgba(0, 0, 0, 0.45);
   }
 
   .menu-toggle {
@@ -1497,6 +1505,11 @@ a {
   .nav-link,
   .mobile-nav__link {
     padding-inline: 0.8rem;
+  }
+
+  .auth-panel {
+    width: min(360px, calc(100vw - 0.75rem));
+    max-height: min(88vh, 680px);
   }
 
   .project-card img,

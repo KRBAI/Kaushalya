@@ -62,7 +62,7 @@ async function main() {
   const mod = await import(defaultContentPath);
   const defaultContent = mod.defaultContent || mod.default || mod.default?.defaultContent;
 
-  const origin = process.env.SITE_ORIGIN || 'http://localhost:5173';
+  const origin = process.env.SITE_ORIGIN || process.env.VITE_SITE_ORIGIN || 'http://localhost:5173';
 
   const pages = [];
 

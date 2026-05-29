@@ -2,20 +2,7 @@ import { useContent } from '../contexts/ContentContext';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import ImageCarousel from '../components/ImageCarousel';
-
-function slugify(text = '') {
-  return String(text)
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-function getSharePageUrl(project) {
-  const id = project.id || slugify(project.title);
-  return `${window.location.origin}/shares/${id}.html`;
-}
+import { getSharePageUrl } from '../lib/shareUrls';
 
 function HomePage({ onNavigate }) {
   const { content } = useContent();

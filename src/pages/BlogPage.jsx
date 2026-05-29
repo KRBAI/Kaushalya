@@ -6,6 +6,7 @@ import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import CommentPanel from '../components/CommentPanel';
 import ImageCarousel from '../components/ImageCarousel';
+import { getSharePageUrl, slugify } from '../lib/shareUrls';
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { firestore } from '../lib/firebase';
 
@@ -40,32 +41,18 @@ function useLikes(postId) {
   return { likeCount: likedBy.length, isLiked, toggleLike };
 }
 
-function slugify(text = '') {
-  return String(text)
-    .toLowerCase()
-    .replace(/\s+/g, '-')
-    .replace(/[^a-z0-9\-]/g, '')
-    .replace(/-+/g, '-')
-    .replace(/^-|-$/g, '');
-}
-
-function getSharePageUrl(post) {
-  const id = post.id || slugify(post.title);
-  return `${window.location.origin}/shares/${id}.html`;
-}
-
 function sharePostCopy(post) {
   const sharePageUrl = getSharePageUrl(post);
   return navigator.clipboard.writeText(sharePageUrl).then(() => sharePageUrl);
 }
 
 function linkedInShareUrl(post) {
-  const shareUrl = `${window.location.origin}${window.location.pathname}#${post.id}`;
+  const shareUrl = getSharePageUrl(post);
   return `https://www.linkedin.com/sharing/share-offsite/?url=${encodeURIComponent(shareUrl)}`;
 }
 
 function whatsappShareUrl(post) {
-  const shareUrl = `${window.location.origin}${window.location.pathname}#${post.id}`;
+  const shareUrl = getSharePageUrl(post);
   const text = `${post.title} - ${post.description} ${shareUrl}`;
   return `https://api.whatsapp.com/send?text=${encodeURIComponent(text)}`;
 }
