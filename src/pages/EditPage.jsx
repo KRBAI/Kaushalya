@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import { useContent } from '../contexts/ContentContext';
 import { readFilesAsDataUrls } from '../lib/imageFiles';
+import { saveCertificatesContent, saveOtherContent, savePostsContent } from '../data/content';
 
 const emptyProjectDraft = {
   label: '',
@@ -336,7 +337,7 @@ function EditPage() {
     setSaving(true);
     setStatus('Saving added project...');
 
-    saveContent(nextDraft, { googleAccessToken })
+    saveOtherContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the featured engineering project.');
       })
@@ -377,7 +378,7 @@ function EditPage() {
     setSaving(true);
     setStatus('Saving added article...');
 
-    saveContent(nextDraft, { googleAccessToken })
+    savePostsContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the blog article.');
       })
@@ -454,7 +455,7 @@ function EditPage() {
     setSaving(true);
     setStatus('Saving added certification...');
 
-    saveContent(nextDraft, { googleAccessToken })
+    saveCertificatesContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the certification.');
       })
@@ -483,7 +484,10 @@ function EditPage() {
     setStatus('');
 
     try {
-      await saveContent(draftRef.current || draft, { googleAccessToken });
+      const currentDraft = draftRef.current || draft;
+      await saveOtherContent(currentDraft, { googleAccessToken });
+      await savePostsContent(currentDraft, { googleAccessToken });
+      await saveCertificatesContent(currentDraft, { googleAccessToken });
       setStatus('Saved to Firestore.');
     } catch (saveError) {
       setStatus(saveError?.message || 'Save failed. Check Firestore rules and permissions.');

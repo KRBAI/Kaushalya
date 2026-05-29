@@ -10,9 +10,9 @@ service cloud.firestore {
       return signedIn() && request.auth.token.email.matches('(?i)^krb\.mullegama@gmail\.com$');
     }
 
-    match /site/content {
+    match /site/{documentId} {
       allow read: if true;
-      allow write: if isAdmin();
+      allow write: if isAdmin() && (documentId == 'content' || documentId == 'coreContent' || documentId == 'posts' || documentId == 'certificates');
     }
 
     match /posts/{postId} {

@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ensureSiteContent, subscribeToSiteContent, saveSiteContent } from '../data/content';
+import { ensureSiteContent, subscribeToSiteContent, saveOtherContent } from '../data/content';
 import { defaultContent } from '../data/defaultContent';
 
 const ContentContext = createContext(null);
@@ -23,7 +23,7 @@ export function ContentProvider({ children }) {
     () => ({
       content,
       loading,
-      saveContent: saveSiteContent,
+      saveContent: saveOtherContent,
     }),
     [content, loading]
   );
