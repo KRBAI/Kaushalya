@@ -49,7 +49,6 @@ function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
       </div>
 
       <div className={`mobile-nav ${mobileMenuOpen ? 'is-open' : ''}`}>
-        <AuthButton />
         {navItems.map((item) => (
           <button
             key={item.id}

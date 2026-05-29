@@ -1264,7 +1264,8 @@ a {
 
   .brand-mark {
     font-size: 1.1rem;
-    flex: 1 1 auto;
+    flex: 0 0 auto;
+    margin-right: auto;
   }
 
   .desktop-nav {
@@ -1279,7 +1280,7 @@ a {
 
   .auth-panel {
     position: fixed;
-    top: 50%;
+    top: 58%;
     left: 50%;
     right: auto;
     transform: translate(-50%, -50%);
@@ -1403,7 +1404,6 @@ a {
     width: 100%;
   }
 
-  .post-actions,
   .share-buttons,
   .hero-actions,
   .newsletter-form {
@@ -1411,13 +1411,23 @@ a {
     align-items: stretch;
   }
 
-  .post-actions .chip-button,
+  .post-actions {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
   .share-buttons .chip-button,
   .hero-actions .primary-button,
   .hero-actions .secondary-button,
   .newsletter-form button,
   .newsletter-form input {
     width: 100%;
+  }
+
+  .post-actions .chip-button,
+  .post-actions .share-buttons .chip-button {
+    width: auto;
   }
 
   .social-links {
