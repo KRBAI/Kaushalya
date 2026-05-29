@@ -178,8 +178,9 @@ function SingleImageDropzone({ label, hint, image, onChange }) {
 
 function EditPage() {
   const { content, saveContent } = useContent();
-  const { isAdmin, loading } = useAuth();
+  const { isAdmin, loading, googleAccessToken, signInWithGoogle } = useAuth();
   const [draft, setDraft] = useState(content);
+  const draftRef = useRef(content);
   const [saving, setSaving] = useState(false);
   const [status, setStatus] = useState('');
 
@@ -189,8 +190,17 @@ function EditPage() {
   const [certificationDraft, setCertificationDraft] = useState(emptyCertificationDraft);
 
   useEffect(() => {
+    draftRef.current = content;
     setDraft(content);
   }, [content]);
+
+  const commitDraft = (nextDraftOrUpdater) => {
+    setDraft((current) => {
+      const nextDraft = typeof nextDraftOrUpdater === 'function' ? nextDraftOrUpdater(current) : nextDraftOrUpdater;
+      draftRef.current = nextDraft;
+      return nextDraft;
+    });
+  };
 
   if (loading) {
     return (
@@ -217,7 +227,7 @@ function EditPage() {
   }
 
   const updateSiteField = (field, value) => {
-    setDraft((current) => ({
+    commitDraft((current) => ({
       ...current,
       site: {
         ...(current.site || {}),
@@ -227,7 +237,7 @@ function EditPage() {
   };
 
   const updateSiteContact = (field, value) => {
-    setDraft((current) => ({
+    commitDraft((current) => ({
       ...current,
       site: {
         ...(current.site || {}),
@@ -240,7 +250,7 @@ function EditPage() {
   };
 
   const updateNavItem = (index, value) => {
-    setDraft((current) => {
+    commitDraft((current) => {
       const navItems = [...(current.site?.navItems || [])];
       navItems[index] = { ...navItems[index], label: value };
 
@@ -255,14 +265,14 @@ function EditPage() {
   };
 
   const updateTopLevelField = (field, value) => {
-    setDraft((current) => ({
+    commitDraft((current) => ({
       ...current,
       [field]: value,
     }));
   };
 
   const updateHeroImage = (image) => {
-    setDraft((current) => ({
+    commitDraft((current) => ({
       ...current,
       hero: {
         ...(current.hero || {}),
@@ -272,14 +282,14 @@ function EditPage() {
   };
 
   const updateAboutImage = (image) => {
-    setDraft((current) => ({
+    commitDraft((current) => ({
       ...current,
       aboutImage: image,
     }));
   };
 
   const updateArrayItem = (section, index, field, value) => {
-    setDraft((current) => {
+    commitDraft((current) => {
       const items = [...(current[section] || [])];
       items[index] = { ...items[index], [field]: value };
       return { ...current, [section]: items };
@@ -314,18 +324,19 @@ function EditPage() {
       images: projectDraft.images,
     };
 
+    const baseDraft = draftRef.current || draft;
     const nextDraft = {
-      ...draft,
-      featuredProjects: [...(draft.featuredProjects || []), nextProject],
+      ...baseDraft,
+      featuredProjects: [...(baseDraft.featuredProjects || []), nextProject],
     };
 
-    setDraft(nextDraft);
+    commitDraft(nextDraft);
     setProjectDraft({ ...emptyProjectDraft, images: [] });
 
     setSaving(true);
     setStatus('Saving added project...');
 
-    saveContent(nextDraft)
+    saveContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the featured engineering project.');
       })
@@ -354,18 +365,19 @@ function EditPage() {
       commentsEnabled: true,
     };
 
+    const baseDraft = draftRef.current || draft;
     const nextDraft = {
-      ...draft,
-      articles: [...(draft.articles || []), nextArticle],
+      ...baseDraft,
+      articles: [...(baseDraft.articles || []), nextArticle],
     };
 
-    setDraft(nextDraft);
+    commitDraft(nextDraft);
     setArticleDraft({ ...emptyArticleDraft, images: [] });
 
     setSaving(true);
     setStatus('Saving added article...');
 
-    saveContent(nextDraft)
+    saveContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the blog article.');
       })
@@ -395,18 +407,19 @@ function EditPage() {
       size: skillDraft.size || 'small',
     };
 
+    const baseDraft = draftRef.current || draft;
     const nextDraft = {
-      ...draft,
-      skills: [...(draft.skills || []), nextSkill],
+      ...baseDraft,
+      skills: [...(baseDraft.skills || []), nextSkill],
     };
 
-    setDraft(nextDraft);
+    commitDraft(nextDraft);
     setSkillDraft({ ...emptySkillDraft });
 
     setSaving(true);
     setStatus('Saving added skill...');
 
-    saveContent(nextDraft)
+    saveContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the skill.');
       })
@@ -429,18 +442,19 @@ function EditPage() {
       image: certificationDraft.image.trim(),
     };
 
+    const baseDraft = draftRef.current || draft;
     const nextDraft = {
-      ...draft,
-      certifications: [...(draft.certifications || []), nextCertification],
+      ...baseDraft,
+      certifications: [...(baseDraft.certifications || []), nextCertification],
     };
 
-    setDraft(nextDraft);
+    commitDraft(nextDraft);
     setCertificationDraft({ ...emptyCertificationDraft });
 
     setSaving(true);
     setStatus('Saving added certification...');
 
-    saveContent(nextDraft)
+    saveContent(nextDraft, { googleAccessToken })
       .then(() => {
         setStatus('Added and saved the certification.');
       })
@@ -452,13 +466,24 @@ function EditPage() {
       });
   };
 
+  const reconnectDrive = async () => {
+    setStatus('Refreshing Google Drive access...');
+
+    try {
+      await signInWithGoogle();
+      setStatus('Google Drive access connected.');
+    } catch (error) {
+      setStatus(error?.message || 'Could not connect Google Drive access.');
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     setSaving(true);
     setStatus('');
 
     try {
-      await saveContent(draft);
+      await saveContent(draftRef.current || draft, { googleAccessToken });
       setStatus('Saved to Firestore.');
     } catch (saveError) {
       setStatus(saveError?.message || 'Save failed. Check Firestore rules and permissions.');
@@ -475,12 +500,21 @@ function EditPage() {
             <span className="eyebrow">Edit</span>
             <h2>Edit Website Content</h2>
           </div>
-          <button type="button" onClick={() => setDraft(content)} className="secondary-button">
+          <button type="button" onClick={() => commitDraft(content)} className="secondary-button">
             Reset draft
           </button>
         </div>
 
         {status ? <p className="content-editor__status">{status}</p> : null}
+
+        {isAdmin && !googleAccessToken ? (
+          <div className="content-editor__status content-editor__status--warning">
+            <span>Google Drive is not connected. Image uploads will not save until you reconnect.</span>
+            <button type="button" className="text-button" onClick={reconnectDrive}>
+              Connect Google Drive
+            </button>
+          </div>
+        ) : null}
 
         <form onSubmit={handleSubmit} className="content-editor__form">
           <section className="content-editor__group">

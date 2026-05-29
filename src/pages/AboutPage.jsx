@@ -1,10 +1,38 @@
+import { useEffect, useState } from 'react';
 import { useContent } from '../contexts/ContentContext';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 
+const fallbackAboutImage = 'https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg';
+
 function AboutPage() {
   const { content } = useContent();
   const { education, skills, certifications, aboutImage, about } = content;
+  const [displayImage, setDisplayImage] = useState('');
+
+  useEffect(() => {
+    const nextImage = aboutImage || fallbackAboutImage;
+    let cancelled = false;
+
+    setDisplayImage('');
+
+    const image = new Image();
+    image.onload = () => {
+      if (!cancelled) {
+        setDisplayImage(nextImage);
+      }
+    };
+    image.onerror = () => {
+      if (!cancelled) {
+        setDisplayImage(fallbackAboutImage);
+      }
+    };
+    image.src = nextImage;
+
+    return () => {
+      cancelled = true;
+    };
+  }, [aboutImage]);
 
   return (
     <div className="page-stack">
@@ -16,7 +44,13 @@ function AboutPage() {
         </Reveal>
 
         <Reveal delay={120}>
-          <img src={aboutImage || 'https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg'} alt="Inner view of a futuristic vehicle" />
+          <div className="about-hero__image-shell">
+            {displayImage ? (
+              <img key={displayImage} src={displayImage} alt="Inner view of a futuristic vehicle" />
+            ) : (
+              <div className="about-hero__image-placeholder" aria-hidden="true" />
+            )}
+          </div>
         </Reveal>
       </section>
 

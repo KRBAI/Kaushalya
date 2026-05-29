@@ -7,7 +7,7 @@ service cloud.firestore {
     }
 
     function isAdmin() {
-      return signedIn() && request.auth.token.email == 'krb.mullegama@gmail.com';
+      return signedIn() && request.auth.token.email.matches('(?i)^krb\.mullegama@gmail\.com$');
     }
 
     match /site/content {
