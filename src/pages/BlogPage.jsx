@@ -5,7 +5,7 @@ import Newsletter from '../components/Newsletter';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import CommentPanel from '../components/CommentPanel';
-import ContentEditor from '../components/ContentEditor';
+import ImageCarousel from '../components/ImageCarousel';
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { firestore } from '../lib/firebase';
 
@@ -57,7 +57,7 @@ function PostCard({ post }) {
 
   return (
     <article className={`article-card article-card--${post.tone}`} id={`post-${post.id}`}>
-      <img src={post.image} alt={post.title} />
+      <ImageCarousel images={post.images || post.image} alt={post.title} imageClassName="article-card__image" />
       <div className="article-card__body">
         <span className="eyebrow">{post.category}</span>
         <h2>{post.title}</h2>
@@ -77,8 +77,8 @@ function PostCard({ post }) {
 }
 
 function BlogPage() {
-  const { content, saveContent } = useContent();
-  const { user, isAdmin } = useAuth();
+  const { content } = useContent();
+  const { user } = useAuth();
   const [query, setQuery] = useState('');
 
   const filteredArticles = useMemo(() => {
@@ -117,8 +117,6 @@ function BlogPage() {
           <span>{user ? 'Logged in' : 'Guest mode'}</span>
         </div>
       </section>
-
-      {isAdmin ? <ContentEditor content={content} onSave={saveContent} /> : null}
 
       <div className="article-list">
         {filteredArticles.map((article, index) => (

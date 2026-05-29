@@ -1,9 +1,15 @@
 import { useContent } from '../contexts/ContentContext';
+import { useAuth } from '../contexts/AuthContext';
 import AuthButton from './AuthButton';
 
 function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
   const { content } = useContent();
-  const navItems = content.site?.navItems || [];
+  const { isAdmin } = useAuth();
+  const navItems = [...(content.site?.navItems || [])];
+
+  if (isAdmin && !navItems.some((item) => item.id === 'edit')) {
+    navItems.push({ id: 'edit', label: 'Edit' });
+  }
 
   return (
     <header className="site-header">

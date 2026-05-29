@@ -1,10 +1,12 @@
 import { useContent } from '../contexts/ContentContext';
 import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
+import ImageCarousel from '../components/ImageCarousel';
 
 function HomePage({ onNavigate }) {
   const { content } = useContent();
-  const { hero, spotlight, featuredProjects, heroStats } = content;
+  const { hero, spotlight, featuredProjects, heroStats, articles = [] } = content;
+  const latestArticle = articles.length ? articles[articles.length - 1] : null;
 
   return (
     <div className="page-stack">
@@ -42,19 +44,33 @@ function HomePage({ onNavigate }) {
       <Reveal>
         <SectionHeading
           eyebrow="Spotlight"
-          title="Latest Article Feature"
+          title={latestArticle ? 'Latest Post Feature' : 'Latest Article Feature'}
           description="A sharp snapshot of the most recent writing and the visual direction behind the portfolio."
         />
         <article className="spotlight-card">
           <div className="spotlight-card__copy">
-            <span className="badge badge--indigo">{spotlight?.tag}</span>
-            <h2>{spotlight?.title}</h2>
-            <p>{spotlight?.description}</p>
+            {latestArticle ? (
+              <>
+                <span className="badge badge--indigo">{latestArticle.category || 'Latest Post'}</span>
+                <h2>{latestArticle.title}</h2>
+                <p>{latestArticle.description}</p>
+              </>
+            ) : (
+              <>
+                <span className="badge badge--indigo">{spotlight?.tag}</span>
+                <h2>{spotlight?.title}</h2>
+                <p>{spotlight?.description}</p>
+              </>
+            )}
             <button type="button" className="text-button" onClick={() => onNavigate('blog')}>
               Read more
             </button>
           </div>
-          <img src={spotlight?.image} alt="Robotics concept art" />
+          <ImageCarousel
+            images={latestArticle?.images || latestArticle?.image || spotlight?.images || spotlight?.image}
+            alt={latestArticle?.title || spotlight?.title || 'Spotlight feature'}
+            imageClassName="spotlight-card__image"
+          />
         </article>
       </Reveal>
 
@@ -71,7 +87,7 @@ function HomePage({ onNavigate }) {
           {featuredProjects.map((project, index) => (
             <Reveal key={project.title} delay={index * 100}>
               <article className="project-card">
-                <img src={project.image} alt={project.title} />
+                <ImageCarousel images={project.images || project.image} alt={project.title} imageClassName="project-card__image" />
                 <div className="project-card__body">
                   <span className="eyebrow">{project.label}</span>
                   <h3>{project.title}</h3>
