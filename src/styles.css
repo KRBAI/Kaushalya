@@ -1297,12 +1297,12 @@ a {
   }
 
   .auth-panel {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    right: auto;
-    transform: translate(-50%, -50%);
-    width: min(420px, calc(100vw - 1rem));
+    position: absolute;
+    top: calc(100% + 0.6rem);
+    right: 0;
+    left: auto;
+    transform: none;
+    width: min(380px, calc(100vw - 1rem));
     max-height: min(86vh, 720px);
     overflow: auto;
     z-index: 60;
