@@ -59,13 +59,14 @@ function Footer({ onNavigate }) {
   const navItems = content.site?.navItems || [];
   const socialLinks = mergeSocialLinks(content.site?.socialLinks, defaultContent.site.socialLinks);
   const contactDetails = content.site?.contactDetails || {};
+  const footerText = content.site?.tagline || 'Thank you for visiting my portfolio. Let’s connect, collaborate, and build something sharper.';
 
   return (
     <footer className="site-footer">
       <div className="site-footer__grid">
         <div className="footer-card">
           <h3>{content.site?.title || 'Kaushalya'}</h3>
-          <p>{content.hero?.description || 'Thank you for visiting my portfolio. Let’s connect, collaborate, and build something sharper.'}</p>
+          <p>{footerText}</p>
         </div>
 
         <div className="footer-card">

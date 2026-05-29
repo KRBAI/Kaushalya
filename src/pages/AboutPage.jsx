@@ -4,18 +4,15 @@ import SectionHeading from '../components/SectionHeading';
 
 function AboutPage() {
   const { content } = useContent();
-  const { education, skills, certifications, aboutImage } = content;
+  const { education, skills, certifications, aboutImage, about } = content;
 
   return (
     <div className="page-stack">
       <section className="about-hero">
         <Reveal className="about-hero__copy">
-          <span className="eyebrow">About me</span>
-          <h1>About Kaushalya</h1>
-          <p>
-            I’m an Electronic & Telecommunication Engineering undergraduate at KDU and a software engineering
-            diploma student at NIBM, exploring where hardware and software can meet in practical systems.
-          </p>
+          <span className="eyebrow">{about?.eyebrow || 'About me'}</span>
+          <h1>{about?.title || 'About Kaushalya'}</h1>
+          <p>{about?.description || 'I build practical systems where hardware and software meet.'}</p>
         </Reveal>
 
         <Reveal delay={120}>

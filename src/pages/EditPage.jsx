@@ -299,7 +299,10 @@ function EditPage() {
   };
 
   const addFeaturedProject = () => {
-    if (!projectDraft.title.trim()) return;
+    if (!projectDraft.title.trim()) {
+      setStatus('Please enter a project title before adding.');
+      return;
+    }
 
     const nextProject = {
       id: `project-${Date.now()}`,
@@ -311,16 +314,34 @@ function EditPage() {
       images: projectDraft.images,
     };
 
-    setDraft((current) => ({
-      ...current,
-      featuredProjects: [...(current.featuredProjects || []), nextProject],
-    }));
-    setProjectDraft(emptyProjectDraft);
-    setStatus('Added a featured engineering project to the draft.');
+    const nextDraft = {
+      ...draft,
+      featuredProjects: [...(draft.featuredProjects || []), nextProject],
+    };
+
+    setDraft(nextDraft);
+    setProjectDraft({ ...emptyProjectDraft, images: [] });
+
+    setSaving(true);
+    setStatus('Saving added project...');
+
+    saveContent(nextDraft)
+      .then(() => {
+        setStatus('Added and saved the featured engineering project.');
+      })
+      .catch((saveError) => {
+        setStatus(saveError?.message || 'Project added to draft, but save failed. Click Save changes to retry.');
+      })
+      .finally(() => {
+        setSaving(false);
+      });
   };
 
   const addBlogArticle = () => {
-    if (!articleDraft.title.trim()) return;
+    if (!articleDraft.title.trim()) {
+      setStatus('Please enter an article title before adding.');
+      return;
+    }
 
     const nextArticle = {
       id: `article-${Date.now()}`,
@@ -333,16 +354,34 @@ function EditPage() {
       commentsEnabled: true,
     };
 
-    setDraft((current) => ({
-      ...current,
-      articles: [...(current.articles || []), nextArticle],
-    }));
-    setArticleDraft(emptyArticleDraft);
-    setStatus('Added a blog article to the draft.');
+    const nextDraft = {
+      ...draft,
+      articles: [...(draft.articles || []), nextArticle],
+    };
+
+    setDraft(nextDraft);
+    setArticleDraft({ ...emptyArticleDraft, images: [] });
+
+    setSaving(true);
+    setStatus('Saving added article...');
+
+    saveContent(nextDraft)
+      .then(() => {
+        setStatus('Added and saved the blog article.');
+      })
+      .catch((saveError) => {
+        setStatus(saveError?.message || 'Article added to draft, but save failed. Click Save changes to retry.');
+      })
+      .finally(() => {
+        setSaving(false);
+      });
   };
 
   const addSkill = () => {
-    if (!skillDraft.title.trim()) return;
+    if (!skillDraft.title.trim()) {
+      setStatus('Please enter a skill title before adding.');
+      return;
+    }
 
     const nextSkill = {
       title: skillDraft.title.trim(),
@@ -356,28 +395,61 @@ function EditPage() {
       size: skillDraft.size || 'small',
     };
 
-    setDraft((current) => ({
-      ...current,
-      skills: [...(current.skills || []), nextSkill],
-    }));
-    setSkillDraft(emptySkillDraft);
-    setStatus('Added a skill to the draft.');
+    const nextDraft = {
+      ...draft,
+      skills: [...(draft.skills || []), nextSkill],
+    };
+
+    setDraft(nextDraft);
+    setSkillDraft({ ...emptySkillDraft });
+
+    setSaving(true);
+    setStatus('Saving added skill...');
+
+    saveContent(nextDraft)
+      .then(() => {
+        setStatus('Added and saved the skill.');
+      })
+      .catch((saveError) => {
+        setStatus(saveError?.message || 'Skill added to draft, but save failed. Click Save changes to retry.');
+      })
+      .finally(() => {
+        setSaving(false);
+      });
   };
 
   const addCertification = () => {
-    if (!certificationDraft.title.trim()) return;
+    if (!certificationDraft.title.trim()) {
+      setStatus('Please enter a certification title before adding.');
+      return;
+    }
 
     const nextCertification = {
       title: certificationDraft.title.trim(),
       image: certificationDraft.image.trim(),
     };
 
-    setDraft((current) => ({
-      ...current,
-      certifications: [...(current.certifications || []), nextCertification],
-    }));
-    setCertificationDraft(emptyCertificationDraft);
-    setStatus('Added a certification to the draft.');
+    const nextDraft = {
+      ...draft,
+      certifications: [...(draft.certifications || []), nextCertification],
+    };
+
+    setDraft(nextDraft);
+    setCertificationDraft({ ...emptyCertificationDraft });
+
+    setSaving(true);
+    setStatus('Saving added certification...');
+
+    saveContent(nextDraft)
+      .then(() => {
+        setStatus('Added and saved the certification.');
+      })
+      .catch((saveError) => {
+        setStatus(saveError?.message || 'Certification added to draft, but save failed. Click Save changes to retry.');
+      })
+      .finally(() => {
+        setSaving(false);
+      });
   };
 
   const handleSubmit = async (event) => {
@@ -514,6 +586,34 @@ function EditPage() {
 
             <section className="content-editor__group">
               <h3>About Page</h3>
+              <div className="content-editor__grid">
+                <label>
+                  About eyebrow
+                  <input
+                    value={draft.about?.eyebrow || ''}
+                    onChange={(event) => updateTopLevelField('about', { ...(draft.about || {}), eyebrow: event.target.value })}
+                    placeholder="About me"
+                  />
+                </label>
+                <label>
+                  About title
+                  <input
+                    value={draft.about?.title || ''}
+                    onChange={(event) => updateTopLevelField('about', { ...(draft.about || {}), title: event.target.value })}
+                    placeholder="About Kaushalya"
+                  />
+                </label>
+                <label>
+                  About description
+                  <textarea
+                    rows="3"
+                    value={draft.about?.description || ''}
+                    onChange={(event) => updateTopLevelField('about', { ...(draft.about || {}), description: event.target.value })}
+                    placeholder="Write your About section intro"
+                  />
+                </label>
+              </div>
+
               <SingleImageDropzone
                 label="About section image"
                 hint="Drag in the image shown beside the About introduction."
