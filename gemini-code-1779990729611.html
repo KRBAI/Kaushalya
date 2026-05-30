@@ -4,11 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Kaushalya Mullegama | Portfolio</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
-    <!-- FontAwesome for Social Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- AOS Animation Library CSS -->
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     
     <style>
@@ -97,10 +94,8 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between">
 
-    <!-- Interactive Network/Circuit Background Canvas -->
     <canvas id="bg-canvas"></canvas>
 
-    <!-- Header / Navbar -->
     <header class="border-b border-gray-800 bg-[#161b22]/80 backdrop-blur-md sticky top-0 z-50 transition-all duration-300">
         <div class="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
             <button onclick="switchTab('home')" class="text-xl font-bold tracking-wide text-white hover:text-blue-400 transition transform hover:scale-105 duration-200">Kaushalya</button>
@@ -120,12 +115,9 @@
         </div>
     </header>
 
-    <!-- Main Content Container -->
     <main class="max-w-6xl mx-auto px-6 py-12 w-full flex-grow relative z-10">
 
-        <!-- ================= HOME SECTION ================= -->
         <div id="home" class="tab-content active space-y-20">
-            <!-- Hero Canvas -->
             <section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center pt-4">
                 <div class="space-y-6" data-aos="fade-right" data-aos-duration="1000">
                     <h1 class="text-5xl font-extrabold text-white tracking-tight leading-tight">Hey, I’m Kaushalya Mullegama!</h1>
@@ -137,11 +129,10 @@
                     </button>
                 </div>
                 <div class="flex justify-center" data-aos="fade-left" data-aos-duration="1000">
-                    <img src="https://static.wixstatic.com/media/3d6765_c7d6668f3ac7464f84a259bad9bd496b~mv2.png/v1/fill/w_480,h_420,al_c,q_90/Untitled%20design%20(2).png" alt="Kaushalya Graphic Banner" class="rounded-2xl max-w-full h-auto shadow-2xl hover:scale-[1.02] transition duration-500">
+                    <img src="placeholder-hero.png" alt="Kaushalya Graphic Banner" class="rounded-2xl max-w-full h-auto shadow-2xl hover:scale-[1.02] transition duration-500">
                 </div>
             </section>
 
-            <!-- Latest Section Spotlight -->
             <section class="space-y-6" data-aos="fade-up" data-aos-duration="800">
                 <h2 class="text-3xl font-bold text-white border-b border-gray-800 pb-2">Latest Article Feature</h2>
                 <div class="bg-[#161b22]/60 backdrop-blur-sm p-8 rounded-2xl border border-gray-800 grid grid-cols-1 md:grid-cols-3 gap-8 items-center hover:border-gray-700 transition duration-300 group">
@@ -157,22 +148,20 @@
                         </button>
                     </div>
                     <div class="flex justify-center overflow-hidden rounded-xl">
-                        <img src="https://static.wixstatic.com/media/c837a6_5b71dec5d2934d45b6dc4cfcd11d038cf000.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_5b71dec5d2934d45b6dc4cfcd11d038cf000.jpg" alt="Robotics Concept Art" class="rounded-xl border border-gray-700 w-full object-cover transform group-hover:scale-105 transition duration-500">
+                        <img src="placeholder-spotlight.jpg" alt="Robotics Concept Art" class="rounded-xl border border-gray-700 w-full object-cover transform group-hover:scale-105 transition duration-500">
                     </div>
                 </div>
             </section>
 
-            <!-- Projects Grid Showcase with 3D Parallax Tilt -->
             <section class="space-y-8">
                 <div data-aos="fade-right" data-aos-duration="600">
                     <h2 class="text-3xl font-bold text-white">Featured Engineering Projects</h2>
                     <p class="text-gray-400 text-sm mt-1">Glimpse into software architectures, hardware platforms, and UI/UX design blueprints.</p>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-                    <!-- Project card 1 -->
                     <div class="bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between tilt-card" 
                          data-aos="fade-up" data-aos-delay="100" data-tilt data-tilt-max="10" data-tilt-speed="800">
-                        <img src="https://static.wixstatic.com/media/3d6765_ba48ac9c59d94aa9bad62312fc183fc8~mv2.png/v1/fill/w_400,h_300,al_c,q_90/Screen%20Shot%202025-02-04%20at%2017_51_23.png" class="w-full h-48 object-cover border-b border-gray-800" alt="Dynamic Web Portfolio">
+                        <img src="placeholder-project-portfolio.png" class="w-full h-48 object-cover border-b border-gray-800" alt="Dynamic Web Portfolio">
                         <div class="p-5 flex-grow space-y-3">
                             <span class="text-xs font-bold uppercase tracking-wider text-blue-400">Web Development</span>
                             <h3 class="text-xl font-bold text-white">Dynamic Web Portfolio</h3>
@@ -181,10 +170,9 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Project card 2 -->
                     <div class="bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between tilt-card" 
                          data-aos="fade-up" data-aos-delay="200" data-tilt data-tilt-max="10" data-tilt-speed="800">
-                        <img src="https://static.wixstatic.com/media/3d6765_b91941eadad74a6e9abc4dcc0c61f7e8~mv2.avif/v1/fill/w_400,h_300,al_c,q_85/untitled-design-4-1.avif" class="w-full h-48 object-cover border-b border-gray-800" alt="Arduino Self Driving Car">
+                        <img src="placeholder-project-car.jpg" class="w-full h-48 object-cover border-b border-gray-800" alt="Arduino Self Driving Car">
                         <div class="p-5 flex-grow space-y-3">
                             <span class="text-xs font-bold uppercase tracking-wider text-green-400">Robotics & IoT</span>
                             <h3 class="text-xl font-bold text-white">Arduino Self Driving Car</h3>
@@ -193,10 +181,9 @@
                             </p>
                         </div>
                     </div>
-                    <!-- Project card 3 -->
                     <div class="bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 rounded-xl overflow-hidden flex flex-col justify-between tilt-card" 
                          data-aos="fade-up" data-aos-delay="300" data-tilt data-tilt-max="10" data-tilt-speed="800">
-                        <img src="https://static.wixstatic.com/media/3d6765_a8ac1b90b5734e3299a4e712b08e0f7b~mv2.png/v1/fill/w_400,h_400,al_c,q_90/Screen%20Shot%202025-02-04%20at%2017_53_02.png" class="w-full h-48 object-cover border-b border-gray-800" alt="Inventory Management Design">
+                        <img src="placeholder-project-inventory.png" class="w-full h-48 object-cover border-b border-gray-800" alt="Inventory Management Design">
                         <div class="p-5 flex-grow space-y-3">
                             <span class="text-xs font-bold uppercase tracking-wider text-pink-400">UI/UX Design</span>
                             <h3 class="text-xl font-bold text-white">Inventory System UX</h3>
@@ -210,7 +197,6 @@
         </div>
 
 
-        <!-- ================= BLOG SECTION ================= -->
         <div id="blog" class="tab-content space-y-12">
             <div class="space-y-4 max-w-3xl" data-aos="fade-right" data-aos-duration="600">
                 <h1 class="text-4xl font-extrabold text-white tracking-tight">Blog & Articles</h1>
@@ -219,11 +205,9 @@
                 </p>
             </div>
 
-            <!-- Feed Deck Stack -->
             <div class="space-y-16 pt-6">
-                <!-- Article 1 -->
                 <article class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 p-6 rounded-2xl hover:border-blue-900 transition duration-300" data-aos="fade-up">
-                    <img src="https://static.wixstatic.com/media/c837a6_172cf227708a485090541c3edf24018b~mv2.jpg/v1/fill/w_400,h_250,al_c,q_85/A%20dark%20robotic%20figure%20from%20the%20game%20_Atactic_.jpg" class="rounded-xl w-full h-48 object-cover" alt="Rise of the Machines">
+                    <img src="placeholder-article-robots.jpg" class="rounded-xl w-full h-48 object-cover" alt="Rise of the Machines">
                     <div class="md:col-span-2 space-y-3">
                         <span class="text-xs font-semibold text-blue-400 uppercase tracking-wider">Robotics</span>
                         <h2 class="text-2xl font-bold text-white hover:text-blue-400 transition duration-200">Rise of the Machines: How Robots Are Reshaping Our Future</h2>
@@ -233,9 +217,8 @@
                     </div>
                 </article>
 
-                <!-- Article 2 -->
                 <article class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 p-6 rounded-2xl hover:border-yellow-900 transition duration-300" data-aos="fade-up">
-                    <img src="https://static.wixstatic.com/media/c837a6_2bfdfe27559641e5ac6b4e6152d7dfa4~mv2.jpg/v1/fill/w_400,h_250,al_c,q_85/An%20illustration%20of%20a%20man%20hiding%20in%20a%20dragon%20cave.jpg" class="rounded-xl w-full h-48 object-cover" alt="History of Robotics">
+                    <img src="placeholder-article-history.jpg" class="rounded-xl w-full h-48 object-cover" alt="History of Robotics">
                     <div class="md:col-span-2 space-y-3">
                         <span class="text-xs font-semibold text-yellow-400 uppercase tracking-wider">AI & Robotics History</span>
                         <h2 class="text-2xl font-bold text-white hover:text-yellow-400 transition duration-200">From Automatons to AI: The Fascinating History of Robotics</h2>
@@ -245,9 +228,8 @@
                     </div>
                 </article>
 
-                <!-- Article 3 -->
                 <article class="grid grid-cols-1 md:grid-cols-3 gap-8 items-start bg-[#161b22]/80 backdrop-blur-sm border border-gray-800 p-6 rounded-2xl hover:border-purple-900 transition duration-300" data-aos="fade-up">
-                    <img src="https://static.wixstatic.com/media/c837a6_5048c5c653ef48199db4fe7b52e968f3~mv2.jpg/v1/fill/w_400,h_250,al_c,q_85/c837a6_5048c5c653ef48199db4fe7b52e968f3~mv2.jpg" class="rounded-xl w-full h-48 object-cover" alt="World without humans">
+                    <img src="placeholder-article-future.jpg" class="rounded-xl w-full h-48 object-cover" alt="World without humans">
                     <div class="md:col-span-2 space-y-3">
                         <span class="text-xs font-semibold text-purple-400 uppercase tracking-wider">Future Civilizations</span>
                         <h2 class="text-2xl font-bold text-white hover:text-purple-400 transition duration-200">A World Without Humans: If Robots Were the Only Species</h2>
@@ -260,9 +242,7 @@
         </div>
 
 
-        <!-- ================= ABOUT SECTION ================= -->
         <div id="about" class="tab-content space-y-16">
-            <!-- Summary Bio -->
             <section class="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
                 <div class="md:col-span-2 space-y-4" data-aos="fade-right" data-aos-duration="800">
                     <h1 class="text-4xl font-extrabold text-white tracking-tight">About me</h1>
@@ -271,11 +251,10 @@
                     </p>
                 </div>
                 <div class="flex justify-center" data-aos="fade-left" data-aos-duration="800">
-                    <img src="https://static.wixstatic.com/media/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg/v1/fill/w_320,h_180,al_c,q_80/c837a6_e6f1add82e8a460297b47026be9099fe~mv2.jpg" alt="Inner view of a futuristic vehicle" class="rounded-xl border border-gray-800 shadow-xl object-cover w-full max-w-xs transform hover:scale-105 transition duration-300">
+                    <img src="placeholder-about.jpg" alt="Inner view of a futuristic vehicle" class="rounded-xl border border-gray-800 shadow-xl object-cover w-full max-w-xs transform hover:scale-105 transition duration-300">
                 </div>
             </section>
 
-            <!-- Academic Milestones -->
             <section class="space-y-6">
                 <h2 class="text-2xl font-bold text-white border-b border-gray-800 pb-2" data-aos="fade-right">Academic Background</h2>
                 <div class="space-y-6">
@@ -298,16 +277,13 @@
                 </div>
             </section>
 
-            <!-- HIGH FIDELITY INTERACTIVE BENTO GRID FOR SKILLS -->
             <section class="space-y-6">
                 <div data-aos="fade-right">
                     <h2 class="text-2xl font-bold text-white border-b border-gray-800 pb-2">Technical Matrix & Competencies</h2>
                 </div>
                 
-                <!-- Bento Structural Matrix Setup -->
                 <div class="grid grid-cols-1 md:grid-cols-3 gap-4 auto-rows-[180px]">
                     
-                    <!-- Box 1: Embedded Electronics Platform (Large Layout Box) -->
                     <div class="bento-box rounded-2xl p-6 md:col-span-2 md:row-span-2 flex flex-col justify-between group" data-aos="fade-up">
                         <div class="flex justify-between items-start">
                             <div class="space-y-1">
@@ -328,7 +304,6 @@
                         </div>
                     </div>
 
-                    <!-- Box 2: Core Compilers & Logic languages -->
                     <div class="bento-box rounded-2xl p-6 flex flex-col justify-between group" data-aos="fade-up" data-aos-delay="100">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-white text-md">Software Engineering</h4>
@@ -342,7 +317,6 @@
                         </div>
                     </div>
 
-                    <!-- Box 3: Web Architectures -->
                     <div class="bento-box rounded-2xl p-6 flex flex-col justify-between group" data-aos="fade-up" data-aos-delay="200">
                         <div class="flex justify-between items-center">
                             <h4 class="font-bold text-white text-md">Web Interfaces</h4>
@@ -354,7 +328,6 @@
                         <div class="text-[11px] text-gray-500 font-medium">HTML5 • CSS3 • JavaScript (ES6)</div>
                     </div>
 
-                    <!-- Box 4: Human Interface Guidelines UI/UX -->
                     <div class="bento-box rounded-2xl p-6 md:col-span-1 flex flex-col justify-between group" data-aos="fade-up" data-aos-delay="300">
                         <div class="flex justify-between items-start">
                             <div class="space-y-0.5">
@@ -369,7 +342,6 @@
                         </div>
                     </div>
 
-                    <!-- Box 5: Creative Assets & Digital Art Layout -->
                     <div class="bento-box rounded-2xl p-6 md:col-span-2 flex flex-col justify-between group" data-aos="fade-up" data-aos-delay="400">
                         <div class="flex justify-between items-center">
                             <div class="space-y-1">
@@ -386,17 +358,15 @@
                 </div>
             </section>
 
-            <!-- Credentials Grid Layout -->
             <section class="space-y-6">
                 <h2 class="text-2xl font-bold text-white border-b border-gray-800 pb-2" data-aos="fade-right">Licenses & certifications</h2>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                    <div class="space-y-2 bg-[#161b22]/70 backdrop-blur-sm p-4 rounded-xl border border-gray-800 hover:scale-[1.01] transition duration-300" data-aos="zoom-in"><h3 class="font-medium text-white text-center text-sm mb-2">Web Design for Beginners</h3><img src="https://static.wixstatic.com/media/3d6765_e581008f54b34cb3b221ea517348b4bb~mv2.png/v1/fill/w_480,h_340,al_c,q_90/Screen%20Shot%202025-02-04%20at%2010_40_27.png" class="w-full rounded border border-gray-700 shadow" alt="Web Design"></div>
-                    <div class="space-y-2 bg-[#161b22]/70 backdrop-blur-sm p-4 rounded-xl border border-gray-800 hover:scale-[1.01] transition duration-300" data-aos="zoom-in"><h3 class="font-medium text-white text-center text-sm mb-2">Get Started with Figma</h3><img src="https://static.wixstatic.com/media/3d6765_c8422b4641384aba8b959a0750cdccbf~mv2.png/v1/fill/w_480,h_360,al_c,q_90/Screen%20Shot%202025-02-04%20at%2010_43_22.png" class="w-full rounded border border-gray-700 shadow" alt="Figma Design"></div>
+                    <div class="space-y-2 bg-[#161b22]/70 backdrop-blur-sm p-4 rounded-xl border border-gray-800 hover:scale-[1.01] transition duration-300" data-aos="zoom-in"><h3 class="font-medium text-white text-center text-sm mb-2">Web Design for Beginners</h3><img src="placeholder-cert-webdesign.png" class="w-full rounded border border-gray-700 shadow" alt="Web Design"></div>
+                    <div class="space-y-2 bg-[#161b22]/70 backdrop-blur-sm p-4 rounded-xl border border-gray-800 hover:scale-[1.01] transition duration-300" data-aos="zoom-in"><h3 class="font-medium text-white text-center text-sm mb-2">Get Started with Figma</h3><img src="placeholder-cert-figma.png" class="w-full rounded border border-gray-700 shadow" alt="Figma Design"></div>
                 </div>
             </section>
         </div>
 
-        <!-- Newsletter Bar -->
         <section class="bg-gradient-to-r from-blue-950 to-indigo-950 p-8 rounded-2xl border border-blue-950 space-y-4 text-center max-w-2xl mx-auto mt-20 shadow-xl" data-aos="fade-up">
             <h2 class="text-2xl font-bold text-white">Subscribe</h2>
             <p class="text-gray-300 text-sm max-w-md mx-auto">Stay updated with my latest projects and innovations! Subscribe now and be part of the journey.</p>
@@ -408,7 +378,6 @@
 
     </main>
 
-    <!-- Footer Section -->
     <footer class="bg-[#161b22]/90 border-t border-gray-800 text-gray-400 text-sm relative z-10">
         <div class="max-w-6xl mx-auto px-6 py-12 grid grid-cols-1 md:grid-cols-4 gap-8">
             <div class="space-y-4">
@@ -444,7 +413,6 @@
         </div>
     </footer>
 
-    <!-- Animation Injection Engines Scripts -->
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/vanilla-tilt/1.8.1/vanilla-tilt.min.js"></script>
 
