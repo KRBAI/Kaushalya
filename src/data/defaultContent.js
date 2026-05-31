@@ -16,6 +16,7 @@ export const defaultContent = {
     contactDetails: {
       location: 'Colombo, Sri Lanka',
       email: 'krb.mullegama@gmail.com',
+      phone: '+94774238727',
     },
   },
   hero: {

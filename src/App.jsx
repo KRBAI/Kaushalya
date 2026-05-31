@@ -7,6 +7,7 @@ import { ContentProvider } from './contexts/ContentContext';
 import { useAuth } from './contexts/AuthContext';
 import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
+import ConnectPage from './pages/ConnectPage';
 import EditPage from './pages/EditPage';
 import HomePage from './pages/HomePage';
 
@@ -15,16 +16,38 @@ const views = {
   blog: BlogPage,
   edit: EditPage,
   about: AboutPage,
+  connect: ConnectPage,
 };
 
 function App() {
   const [activeView, setActiveView] = useState(() => {
-    return window.localStorage.getItem('kaushalya-view') || 'home';
+    const queryView = new URLSearchParams(window.location.search).get('v');
+    if (queryView === 'connect') {
+      return 'connect';
+    }
+
+    const storedView = window.localStorage.getItem('kaushalya-view');
+    if (storedView && storedView !== 'connect') {
+      return storedView;
+    }
+
+    return 'home';
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    window.localStorage.setItem('kaushalya-view', activeView);
+    if (activeView !== 'connect') {
+      window.localStorage.setItem('kaushalya-view', activeView);
+    }
+
+    const nextUrl = new URL(window.location.href);
+    if (activeView === 'connect') {
+      nextUrl.searchParams.set('v', 'connect');
+    } else {
+      nextUrl.searchParams.delete('v');
+    }
+    window.history.replaceState({}, '', `${nextUrl.pathname}${nextUrl.search}${nextUrl.hash}`);
+
     window.scrollTo({ top: 0, behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth' });
   }, [activeView]);
 

@@ -19,6 +19,16 @@ function getArticleBlocks(text = '') {
     .filter(Boolean);
 }
 
+function renderInline(raw = '') {
+  const parts = String(raw).split(/(\*[^*]+\*)/g).filter(Boolean);
+  return parts.map((part, i) => {
+    if (/^\*[^*]+\*$/.test(part)) {
+      return <strong key={`${part}-${i}`}>{part.slice(1, -1)}</strong>;
+    }
+    return <span key={`${part}-${i}`}>{part}</span>;
+  });
+}
+
 function StructuredArticleText({ text }) {
   const blocks = useMemo(() => getArticleBlocks(text), [text]);
 
@@ -35,7 +45,7 @@ function StructuredArticleText({ text }) {
           const level = headingMatch[1].length;
           return (
             <h3 key={`${block}-${index}`} className={`article-card__content-heading article-card__content-heading--${level}`}>
-              {headingMatch[2]}
+              {renderInline(headingMatch[2])}
             </h3>
           );
         }
@@ -47,7 +57,7 @@ function StructuredArticleText({ text }) {
           return (
             <ul key={`${block}-${index}`} className="article-card__content-list">
               {listItems.map((item) => (
-                <li key={item}>{item.replace(/^[-*•]\s+/, '')}</li>
+                <li key={item}>{renderInline(item.replace(/^[-*•]\s+/, ''))}</li>
               ))}
             </ul>
           );
@@ -57,7 +67,7 @@ function StructuredArticleText({ text }) {
           <p key={`${block}-${index}`} className="article-card__content-paragraph">
             {block.split('\n').map((line, lineIndex) => (
               <span key={`${line}-${lineIndex}`}>
-                {line}
+                {renderInline(line)}
                 {lineIndex < block.split('\n').length - 1 ? <br /> : null}
               </span>
             ))}
@@ -145,7 +155,7 @@ function PostCard({ post }) {
       <div className="article-card__body">
         <span className="eyebrow">{post.category}</span>
         <h2>{post.title}</h2>
-        {summaryText ? <p className="article-card__summary">{summaryText}</p> : null}
+        {summaryText ? <p className="article-card__summary">{/* allow *text* -> bold */}{/* eslint-disable-next-line react/jsx-no-comment-textnodes */}{renderInline(summaryText)}</p> : null}
         <StructuredArticleText text={bodyText} />
         <div className="post-actions">
           <button type="button" className={`chip-button ${isLiked ? 'is-liked' : ''}`} onClick={toggleLike}>

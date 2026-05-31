@@ -5,7 +5,8 @@ import { defaultContent } from '../data/defaultContent';
 const ContentContext = createContext(null);
 
 export function ContentProvider({ children }) {
-  const [content, setContent] = useState(defaultContent);
+  // Start with default site settings but no articles to avoid flashing sample posts
+  const [content, setContent] = useState({ ...defaultContent, articles: [] });
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
