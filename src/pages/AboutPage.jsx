@@ -8,6 +8,7 @@ const fallbackAboutImage = 'https://static.wixstatic.com/media/c837a6_e6f1add82e
 function AboutPage() {
   const { content } = useContent();
   const { education, skills, certifications, aboutImage, about } = content;
+  const certificationsLatestFirst = [...certifications].reverse();
   const [displayImage, setDisplayImage] = useState('');
 
   useEffect(() => {
@@ -116,7 +117,7 @@ function AboutPage() {
         </Reveal>
 
         <div className="cert-grid">
-          {certifications.map((cert, index) => (
+          {certificationsLatestFirst.map((cert, index) => (
             <Reveal key={cert.title} delay={index * 100}>
               <article className="cert-card">
                 <h3>{cert.title}</h3>

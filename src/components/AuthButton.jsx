@@ -1,6 +1,16 @@
 import { useMemo, useState } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 
+function initialsFromText(text = '') {
+  return String(text)
+    .split(/[^A-Za-z0-9]+/)
+    .filter(Boolean)
+    .map((part) => part[0])
+    .join('')
+    .slice(0, 4)
+    .toUpperCase();
+}
+
 function AuthButton() {
   const { user, loading, isAdmin, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, signOut } = useAuth();
   const [panelOpen, setPanelOpen] = useState(false);
@@ -106,7 +116,7 @@ function AuthButton() {
   return (
     <div className="auth-session">
       <span className={`auth-chip ${isAdmin ? 'auth-chip--admin' : ''}`}>
-        {user.displayName || user.email}
+        {initialsFromText(user.displayName || user.email)}
         {isAdmin ? ' · Admin' : ' · Reader'}
       </span>
       <button type="button" className="auth-button auth-button--ghost" onClick={signOut}>

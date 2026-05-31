@@ -72,7 +72,7 @@ async function main() {
   for (const article of defaultContent.articles || []) {
     const id = article.id || slugify(article.title);
     const pageUrl = providedOrigin ? `${providedOrigin}/shares/${id}.html` : `/shares/${id}.html`;
-    const redirectUrl = `/#${id}`;
+    const redirectUrl = `/#post-${id}`;
     pages.push({ id, title: article.title, description: article.description, image: article.image, pageUrl, redirectUrl });
   }
 
@@ -80,7 +80,7 @@ async function main() {
   for (const project of defaultContent.featuredProjects || []) {
     const id = project.id || slugify(project.title);
     const pageUrl = providedOrigin ? `${providedOrigin}/shares/${id}.html` : `/shares/${id}.html`;
-    const redirectUrl = `/#${id}`;
+    const redirectUrl = `/#project-${id}`;
     pages.push({ id, title: project.title, description: project.description, image: project.image || (project.images && project.images[0]) || '', pageUrl, redirectUrl });
   }
 

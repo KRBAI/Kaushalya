@@ -16,6 +16,7 @@ const emptyArticleDraft = {
   category: '',
   title: '',
   description: '',
+  content: '',
   tone: 'blue',
   images: [],
 };
@@ -360,6 +361,7 @@ function EditPage() {
       category: articleDraft.category.trim() || 'Blog',
       title: articleDraft.title.trim(),
       description: articleDraft.description.trim(),
+      content: articleDraft.content.trim(),
       tone: articleDraft.tone || 'blue',
       image: articleDraft.images[0] || '',
       images: articleDraft.images,
@@ -767,6 +769,15 @@ function EditPage() {
                       value={articleDraft.description}
                       onChange={(event) => setArticleDraft((current) => ({ ...current, description: event.target.value }))}
                       placeholder="Write the article summary"
+                    />
+                  </label>
+                  <label>
+                    Article content
+                    <textarea
+                      rows="8"
+                      value={articleDraft.content}
+                      onChange={(event) => setArticleDraft((current) => ({ ...current, content: event.target.value }))}
+                      placeholder={'Use blank lines between sections. You can also start a line with #, ##, or ### for headings.'}
                     />
                   </label>
                   <label>

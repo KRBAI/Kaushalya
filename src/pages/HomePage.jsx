@@ -3,11 +3,14 @@ import Reveal from '../components/Reveal';
 import SectionHeading from '../components/SectionHeading';
 import ImageCarousel from '../components/ImageCarousel';
 import { getSharePageUrl } from '../lib/shareUrls';
+import { slugify } from '../lib/shareUrls';
 
 function HomePage({ onNavigate }) {
   const { content } = useContent();
   const { hero, spotlight, featuredProjects, heroStats, articles = [] } = content;
-  const latestArticle = articles.length ? articles[articles.length - 1] : null;
+  const latestArticlesFirst = [...articles].reverse();
+  const latestArticle = latestArticlesFirst[0] || null;
+  const featuredProjectsLatestFirst = [...featuredProjects].reverse();
 
   return (
     <div className="page-stack">
@@ -82,12 +85,13 @@ function HomePage({ onNavigate }) {
         </Reveal>
 
         <div className="project-grid">
-          {featuredProjects.map((project, index) => {
+          {featuredProjectsLatestFirst.map((project, index) => {
             const shareUrl = getSharePageUrl(project);
+            const projectId = `project-${project.id || slugify(project.title)}`;
 
             return (
               <Reveal key={project.title} delay={index * 100}>
-                <article className="project-card">
+                <article className="project-card" id={projectId}>
                   <ImageCarousel images={project.images || project.image} alt={project.title} imageClassName="project-card__image" />
                   <div className="project-card__body">
                     <span className="eyebrow">{project.label}</span>

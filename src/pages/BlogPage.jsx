@@ -10,6 +10,64 @@ import { getSharePageUrl, slugify } from '../lib/shareUrls';
 import { collection, deleteDoc, doc, onSnapshot, setDoc } from 'firebase/firestore';
 import { firestore } from '../lib/firebase';
 
+function getArticleBlocks(text = '') {
+  return String(text)
+    .replace(/\r\n/g, '\n')
+    .trim()
+    .split(/\n\s*\n/)
+    .map((block) => block.trim())
+    .filter(Boolean);
+}
+
+function StructuredArticleText({ text }) {
+  const blocks = useMemo(() => getArticleBlocks(text), [text]);
+
+  if (!blocks.length) {
+    return null;
+  }
+
+  return (
+    <div className="article-card__content">
+      {blocks.map((block, index) => {
+        const headingMatch = block.match(/^(#{1,3})\s+(.+)$/);
+
+        if (headingMatch) {
+          const level = headingMatch[1].length;
+          return (
+            <h3 key={`${block}-${index}`} className={`article-card__content-heading article-card__content-heading--${level}`}>
+              {headingMatch[2]}
+            </h3>
+          );
+        }
+
+        const lines = block.split('\n').map((line) => line.trim()).filter(Boolean);
+        const listItems = lines.filter((line) => /^[-*•]\s+/.test(line));
+
+        if (listItems.length === lines.length && listItems.length > 0) {
+          return (
+            <ul key={`${block}-${index}`} className="article-card__content-list">
+              {listItems.map((item) => (
+                <li key={item}>{item.replace(/^[-*•]\s+/, '')}</li>
+              ))}
+            </ul>
+          );
+        }
+
+        return (
+          <p key={`${block}-${index}`} className="article-card__content-paragraph">
+            {block.split('\n').map((line, lineIndex) => (
+              <span key={`${line}-${lineIndex}`}>
+                {line}
+                {lineIndex < block.split('\n').length - 1 ? <br /> : null}
+              </span>
+            ))}
+          </p>
+        );
+      })}
+    </div>
+  );
+}
+
 function useLikes(postId) {
   const { user } = useAuth();
   const [likedBy, setLikedBy] = useState([]);
@@ -60,6 +118,9 @@ function whatsappShareUrl(post) {
 function PostCard({ post }) {
   const { likeCount, isLiked, toggleLike } = useLikes(post.id);
   const [copied, setCopied] = useState(false);
+  const hasDedicatedBody = Boolean(post.content && post.content.trim());
+  const summaryText = hasDedicatedBody ? post.description : '';
+  const bodyText = hasDedicatedBody ? post.content : post.description;
 
   const handleCopy = async () => {
     try {
@@ -84,7 +145,8 @@ function PostCard({ post }) {
       <div className="article-card__body">
         <span className="eyebrow">{post.category}</span>
         <h2>{post.title}</h2>
-        <p>{post.description}</p>
+        {summaryText ? <p className="article-card__summary">{summaryText}</p> : null}
+        <StructuredArticleText text={bodyText} />
         <div className="post-actions">
           <button type="button" className={`chip-button ${isLiked ? 'is-liked' : ''}`} onClick={toggleLike}>
             ♥ {likeCount}
@@ -106,18 +168,20 @@ function BlogPage() {
   const { user } = useAuth();
   const [query, setQuery] = useState('');
 
+  const articlesLatestFirst = useMemo(() => [...(content.articles || [])].reverse(), [content.articles]);
+
   const filteredArticles = useMemo(() => {
     const needle = query.trim().toLowerCase();
 
-    return content.articles.filter((article) => {
+    return articlesLatestFirst.filter((article) => {
       if (!needle) return true;
 
-      return [article.category, article.title, article.description]
+      return [article.category, article.title, article.description, article.content]
         .join(' ')
         .toLowerCase()
         .includes(needle);
     });
-  }, [content.articles, query]);
+  }, [articlesLatestFirst, query]);
 
   return (
     <div className="page-stack">
