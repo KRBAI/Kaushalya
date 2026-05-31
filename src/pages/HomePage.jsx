@@ -148,11 +148,7 @@ function HomePage({ onNavigate }) {
               </div>
 
               <div className="hero-business-card__content">
-                {/* meta row: right-aligned pills */}
-                <div className="hero-business-card__meta-row">
-                  <span className="pill">3+ Core disciplines</span>
-                  <span className="pill">4 Featured projects</span>
-                </div>
+                {/* removed top pills; they will appear under Email to match QR height */}
                 <h2>{hero?.title || "Hey, I’m Kaushalya Mullegama."}</h2>
                 <p>{hero?.description || 'Electronics and software enthusiast focused on practical innovation.'}</p>
 
@@ -164,24 +160,17 @@ function HomePage({ onNavigate }) {
                     </div>
                     <span>{contactPhone || 'Scan QR to save contact'}</span>
                   </div>
-                  <div>
+                  <div className="useful--email">
                     <strong>Email</strong>
                     <span>{contactEmail || 'krb.mullegama@gmail.com'}</span>
                   </div>
-                  <div>
-                    <strong>Location</strong>
-                    <span>{contactLocation || 'Colombo, Sri Lanka'}</span>
+                  <div className="useful--stat">
+                    <strong>3+</strong>
+                    <span>Core disciplines</span>
                   </div>
-                  <div>
-                    <strong>Socials</strong>
-                    <span>{socialLabels || 'LinkedIn · GitHub · Instagram'}</span>
-                  </div>
-                </div>
-
-                <div className="hero-business-card__qr">
-                  <span>Scan for contact card</span>
-                  <div className="hero-business-card__qr-panel">
-                    {shareQrSrc ? <img src={shareQrSrc} alt="QR code for contact card" crossOrigin="anonymous" /> : <div className="hero-business-card__qr-placeholder" aria-hidden="true" />}
+                  <div className="useful--stat">
+                    <strong>4</strong>
+                    <span>Featured projects</span>
                   </div>
                 </div>
 
