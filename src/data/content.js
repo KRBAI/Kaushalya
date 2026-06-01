@@ -1,4 +1,4 @@
-import { doc, getDoc, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
+import { doc, getDoc, getDocFromServer, onSnapshot, serverTimestamp, setDoc } from 'firebase/firestore';
 import { firestore } from '../lib/firebase';
 import { defaultContent } from './defaultContent';
 import { uploadDataUrlToDrive } from '../lib/imageFiles';
@@ -168,6 +168,34 @@ function mergeContentSnapshots(coreSnapshot, postsSnapshot, certificatesSnapshot
   };
 }
 
+async function loadServerContentSnapshot(documentReference, fallbackDefaults) {
+  try {
+    const snapshot = await getDocFromServer(documentReference);
+
+    if (snapshot.exists()) {
+      return snapshot;
+    }
+  } catch {
+    // Fall back to cached or local data below.
+  }
+
+  try {
+    return await getDoc(documentReference);
+  } catch {
+    return { exists: () => false, data: () => fallbackDefaults, metadata: { fromCache: false } };
+  }
+}
+
+export async function loadSiteContentFromServer() {
+  const [coreSnapshot, postsSnapshot, certificatesSnapshot] = await Promise.all([
+    loadServerContentSnapshot(coreContentDocument, splitLegacyContent(defaultContent).core),
+    loadServerContentSnapshot(postsContentDocument, splitLegacyContent(defaultContent).posts),
+    loadServerContentSnapshot(certificatesContentDocument, splitLegacyContent(defaultContent).certificates),
+  ]);
+
+  return mergeContentSnapshots(coreSnapshot, postsSnapshot, certificatesSnapshot);
+}
+
 export async function ensureSiteContent() {
   await migrateLegacyContentIfNeeded();
   await Promise.all([
@@ -190,12 +218,17 @@ export function subscribeToSiteContent(callback) {
       return;
     }
 
+    if (snapshots.core.metadata?.fromCache || snapshots.posts.metadata?.fromCache || snapshots.certificates.metadata?.fromCache) {
+      return;
+    }
+
     callback(mergeContentSnapshots(snapshots.core, snapshots.posts, snapshots.certificates));
   };
 
   unsubscribeHandlers.push(
     onSnapshot(
       coreContentDocument,
+      { includeMetadataChanges: true },
       (snapshot) => {
         snapshots.core = snapshot;
         emit();
@@ -210,6 +243,7 @@ export function subscribeToSiteContent(callback) {
   unsubscribeHandlers.push(
     onSnapshot(
       postsContentDocument,
+      { includeMetadataChanges: true },
       (snapshot) => {
         snapshots.posts = snapshot;
         emit();
@@ -224,6 +258,7 @@ export function subscribeToSiteContent(callback) {
   unsubscribeHandlers.push(
     onSnapshot(
       certificatesContentDocument,
+      { includeMetadataChanges: true },
       (snapshot) => {
         snapshots.certificates = snapshot;
         emit();

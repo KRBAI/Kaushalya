@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "node scripts/generate-shares.js && vite build",
+    "build": "node scripts/fetch-hero-share-image.js && node scripts/generate-shares.js && vite build",
     "preview": "vite preview"
   },
   "dependencies": {

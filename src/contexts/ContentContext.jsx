@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useMemo, useState } from 'react';
-import { ensureSiteContent, subscribeToSiteContent, saveOtherContent } from '../data/content';
+import { ensureSiteContent, loadSiteContentFromServer, subscribeToSiteContent, saveOtherContent } from '../data/content';
 import { defaultContent } from '../data/defaultContent';
 
 const ContentContext = createContext(null);
@@ -10,14 +10,35 @@ export function ContentProvider({ children }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    ensureSiteContent().catch(() => null);
+    let cancelled = false;
+
+    const initializeContent = async () => {
+      try {
+        await ensureSiteContent();
+        const initialContent = await loadSiteContentFromServer();
+
+        if (!cancelled) {
+          setContent(initialContent);
+          setLoading(false);
+        }
+      } catch {
+        if (!cancelled) {
+          setLoading(false);
+        }
+      }
+    };
+
+    initializeContent();
 
     const unsubscribe = subscribeToSiteContent((nextContent) => {
       setContent(nextContent);
       setLoading(false);
     });
 
-    return unsubscribe;
+    return () => {
+      cancelled = true;
+      unsubscribe();
+    };
   }, []);
 
   const value = useMemo(

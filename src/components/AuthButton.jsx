@@ -11,7 +11,7 @@ function initialsFromText(text = '') {
     .toUpperCase();
 }
 
-function AuthButton() {
+function AuthButton({ onNavigate }) {
   const { user, loading, isAdmin, signInWithGoogle, signInWithEmail, signUpWithEmail, resetPassword, signOut } = useAuth();
   const [panelOpen, setPanelOpen] = useState(false);
   const [mode, setMode] = useState('sign-in');
@@ -115,13 +115,38 @@ function AuthButton() {
 
   return (
     <div className="auth-session">
-      <span className={`auth-chip ${isAdmin ? 'auth-chip--admin' : ''}`}>
+      <div
+        className={`auth-chip ${isAdmin ? 'auth-chip--admin' : ''}`}
+        role="button"
+        tabIndex={0}
+        onClick={() => setPanelOpen((current) => !current)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter' || e.key === ' ') setPanelOpen((current) => !current);
+        }}
+      >
         {initialsFromText(user.displayName || user.email)}
         {isAdmin ? ' · Admin' : ' · Reader'}
-      </span>
-      <button type="button" className="auth-button auth-button--ghost" onClick={signOut}>
-        Sign out
-      </button>
+      </div>
+
+      {panelOpen ? (
+        <div className="auth-dropdown">
+          {!isAdmin && onNavigate ? (
+            <button
+              type="button"
+              className="text-button"
+              onClick={() => {
+                setPanelOpen(false);
+                onNavigate('card-builder');
+              }}
+            >
+              Business Card Builder
+            </button>
+          ) : null}
+          <button type="button" className="text-button" onClick={signOut}>
+            Sign out
+          </button>
+        </div>
+      ) : null}
     </div>
   );
 }

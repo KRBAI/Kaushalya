@@ -116,7 +116,7 @@ function Header({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
         </nav>
 
         <div className="header-actions">
-          <AuthButton />
+          <AuthButton onNavigate={onNavigate} />
         </div>
 
         <button

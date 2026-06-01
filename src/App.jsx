@@ -8,6 +8,7 @@ import { useAuth } from './contexts/AuthContext';
 import AboutPage from './pages/AboutPage';
 import BlogPage from './pages/BlogPage';
 import ConnectPage from './pages/ConnectPage';
+import CardBuilderPage from './pages/CardBuilderPage';
 import EditPage from './pages/EditPage';
 import HomePage from './pages/HomePage';
 
@@ -17,6 +18,7 @@ const views = {
   edit: EditPage,
   about: AboutPage,
   connect: ConnectPage,
+  'card-builder': CardBuilderPage,
 };
 
 function App() {
@@ -71,13 +73,16 @@ function App() {
 }
 
 function AppShell({ activeView, mobileMenuOpen, onNavigate, onToggleMenu }) {
-  const { isAdmin, loading } = useAuth();
+  const { isAdmin, loading, user } = useAuth();
 
   useEffect(() => {
     if (!loading && activeView === 'edit' && !isAdmin) {
       onNavigate('home');
     }
-  }, [activeView, isAdmin, loading, onNavigate]);
+    if (!loading && activeView === 'card-builder' && (!user || isAdmin)) {
+      onNavigate('home');
+    }
+  }, [activeView, isAdmin, loading, onNavigate, user]);
 
   const CurrentPage = useMemo(() => views[activeView] ?? HomePage, [activeView]);
 
